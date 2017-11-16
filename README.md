@@ -9,7 +9,7 @@ The idea of this project is the visitor would get to experience the satisfaction
 The interaction will happen in three main scenes: 
 
 <p align="center">
-  <img width="460" height="300" src="https://github.com/DennisSSDev/DungeonChest/blob/master/Plans-Mocks/Mock_Scene_1.jpg">
+  <img width="720" height="405" src="https://github.com/DennisSSDev/DungeonChest/blob/master/Plans-Mocks/Mock_Scene_1.jpg">
 </p>
 
 #### - The Chest introduction
