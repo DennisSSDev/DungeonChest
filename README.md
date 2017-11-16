@@ -22,4 +22,9 @@ Currently the main framework I'm most likely going to be using is three.js, as i
 - It would be nice to have the user be able to leave his own mark on the items, hence none of them will ever leave the chest. The feature would be to have the user paint a part of the item and have the changes saved to the overall item, thus the next user would be able to see the changes and to the exact same thing.
 - Another idea would be to add randomized items inside the chest, so there would be more excitement in the item the user can recieve from the chest
 
+## Notes
+I'm going to be using a couple of tutorials to get myself up and running with WEBGL and three.js:
+- [Learning 3D Graphics on the Web with Three.js](https://www.lynda.com/JavaScript-tutorials/Learning-3D-Graphics-Web-Three-js/586668-2.html?org=rit.edu)
+- [Getting Started with Three.js](https://aerotwist.com/tutorials/getting-started-with-three-js/)
+
 
