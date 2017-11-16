@@ -16,7 +16,16 @@ Based on the user's choice he will get to inspect an item from the chest more cl
 
 
 ## What will I use?
-Currently the main framework I'm most likely going to be using is three.js, as it is used for 3D web development, which utilizes WebGL and is very well compatible with the majority of browsers.
+Currently the main framework I'm most likely going to be using is three.js, as it is used for 3D web development, which utilizes WebGL and is very well compatible with the majority of browsers. for creatinng 3D objects I'm planning to use Maya as my main source for 3D Designs
+
+## Plan of Action
+- Finish learning THREE.js
+- Start Making sketches of the environment for the 3 scenes
+- Craft 3D models necessary for the project
+- Create the scenes uisng the THREE.js
+- Place models into levels
+- Create scripts for interactivity like selecting items, hovering, clicking, rotating
+- Polish scenes
 
 ## Above and Beyond Possibility
 - It would be nice to have the user be able to leave his own mark on the items, hence none of them will ever leave the chest. The feature would be to have the user paint a part of the item and have the changes saved to the overall item, thus the next user would be able to see the changes and to the exact same thing.
