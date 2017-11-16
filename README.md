@@ -7,9 +7,11 @@
 
 The idea of this project is the visitor would get to experience the satisfaction of opening and exploring a chest, but what exactly will the user find inside that chest is left for him to find out. 
 The interaction will happen in three main scenes: 
+
 <p align="center">
   <img width="460" height="300" src="https://github.com/DennisSSDev/DungeonChest/blob/master/Plans-Mocks/Mock_Scene_1.jpg">
 </p>
+
 #### - The Chest introduction
 In this scene the user is shown a dungeon with a chest right in the middle which will probably be highlighted by a light coming through a crack in the wall. He will be able to look around, but there won't be much in the room as it is full of rubble, vines and broken bricks. By hovering over the chest's diamond in the front it starts glowing with a bright blue light, encouraging the user to push on it. Once the user pushes the button, we transition to the second scene.
 #### - The Insides
