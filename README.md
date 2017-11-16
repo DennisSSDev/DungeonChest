@@ -15,6 +15,7 @@ The interaction will happen in three main scenes:
 </p>
 
 In this scene the user is shown a dungeon with a chest right in the middle which will probably be highlighted by a light coming through a crack in the wall. He will be able to look around, but there won't be much in the room as it is full of rubble, vines and broken bricks. By hovering over the chest's diamond in the front it starts glowing with a bright blue light, encouraging the user to push on it. Once the user pushes the button, we transition to the second scene.
+
 ### - The Insides
 
 <p align="center">
@@ -22,7 +23,14 @@ In this scene the user is shown a dungeon with a chest right in the middle which
 </p>
 
 The camera rapidly switches into darkness and from that darkness emerges the bottom of a treasure chest, with three items scattered around the bottom. The user gets the option to hover over them and each of them would glow once someone tries to inspect them. Once the user decides to click on the item, the scene swiches to the final scene.
+
 ### - The inspection
+
+<p align="center">
+  <img width="720" height="405" src="https://github.com/DennisSSDev/DungeonChest/blob/master/Plans-Mocks/Mock_Scene_3.jpg">
+</p>
+
+
 Based on the user's choice he will get to inspect an item from the chest more closely, by rotating it around. The user will always be able to go back and take a look at other items within the chest, so the inspection can be done with all of the objects.
 
 
