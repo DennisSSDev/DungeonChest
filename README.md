@@ -35,7 +35,10 @@ Based on the user's choice he will get to inspect an item from the chest more cl
 
 
 ## What will I use?
-Currently the main framework I'm most likely going to be using is three.js, as it is used for 3D web development, which utilizes WebGL and is very well compatible with the majority of browsers. for creatinng 3D objects I'm planning to use Maya as my main source for 3D Designs
+- Currently the main framework I'm most likely going to be using is three.js, as it is used for 3D web development, which utilizes WebGL and is very well compatible with the majority of browsers
+- For creatinng 3D objects I'm planning to use Maya as my main source for 3D Designs
+- I'm also going to be using dat.GUI.js which will help me adjust parameters of javascript objects on the fly
+- OrbitControls.js will also come in handy as it will help understand what's going around in the scene view
 
 ## Plan of Action
 - Finish learning THREE.js
