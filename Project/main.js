@@ -4,17 +4,19 @@ let keyboard = {};//keyboard input
 
 var move_1, move_2, move_3;//tween stuff
 
-let loader, model, animation, mixer, clock, delta;//all sorts
+let loader, model, animation, mixer, clock, delta, flyControl;//all sorts
+
+
 
 function init(){
 
     var scene = new  THREE.Scene();
-    var gui = new dat.GUI();
+    var gui = new dat.GUI();//add this to help with gui values
     var enableFog = true;
     loader = new THREE.JSONLoader();
     clock = new THREE.Clock();
-
-
+    
+   
     if(enableFog){
         scene.fog = new THREE.FogExp2(0xffffff, 0.01);
     }
@@ -41,40 +43,38 @@ function init(){
     //loader.load("../models/JSON/Chest/Inn.json", addModel);
     
     var camera = new THREE.PerspectiveCamera(
-        45,
-        window.innerWidth/window.innerHeight,
+        75,//angle
+        1600/900,//aspect
         1,
         1000
     );
 
-    var cameraZRotation = new THREE.Group();
-    var cameraYPosition = new THREE.Group();
-    var cameraZPosition = new THREE.Group();
-    var cameraXRotation = new THREE.Group();
-    var cameraYRotation = new THREE.Group();
+    
 
-    cameraZRotation.name = 'cameraZRotation';
-    cameraYPosition.name = 'cameraYPosition';
-    cameraZPosition.name = 'cameraZPosition';
-    cameraXRotation.name  = 'cameraXRotation';
-    cameraYRotation.name  = 'cameraYRotation';
 
-    cameraZRotation.add(camera);
-    cameraYPosition.add(cameraZRotation);
-    cameraZPosition.add(cameraYPosition);
-    cameraXRotation.add(cameraZPosition);
-    cameraYRotation.add(cameraXRotation);
-    scene.add(cameraYRotation);
+    
 
-    cameraYPosition.position.y = 1;
-    cameraZPosition.position.z = 30;
-    cameraXRotation.rotation.x = -Math.PI/6;
+    scene.add(camera);
+    camera.position.y = 12;
+    camera.position.z = 20;
+
+    flyControl = new THREE.FlyControls(camera,document.querySelector("#webgl"));
+    flyControl.keydown = null;
+
+
+   // camRotation = new THREE.TrackballControls( camera );
+   // console.log(camRotation);
+
+
+   // cameraYPosition.position.y = 1;
+   // cameraZPosition.position.z = 30;
+  //  cameraXRotation.rotation.x = -Math.PI/6;
 
 
     move_1 = new TWEEN.Tween({val: 100})
         .to({val: -50}, 12000)
         .onUpdate(function(){
-            cameraZPosition.position.z = this.val;
+           // cameraZPosition.position.z = this.val;
         })
 
 
@@ -83,7 +83,7 @@ function init(){
         .delay(1000)
         .easing(TWEEN.Easing.Quadratic.InOut)
         .onUpdate(function() {
-            cameraXRotation.rotation.x = this.val;
+           // cameraXRotation.rotation.x = this.val;
         })
 
     move_3 = new TWEEN.Tween({val: 0})
@@ -91,27 +91,22 @@ function init(){
         .delay(1000)
         .easing(TWEEN.Easing.Quadratic.InOut)
         .onUpdate(function() {
-            cameraYRotation.rotation.y = this.val;
+           // cameraYRotation.rotation.y = this.val;
         })
         
 
-    gui.add(cameraZPosition.position, 'z', 0, 100);
-    gui.add(cameraYRotation.rotation, 'y', -Math.PI, Math.PI);
-    gui.add(cameraXRotation.rotation, 'x', -Math.PI, Math.PI);
-    gui.add(cameraZRotation.rotation, 'z', -Math.PI, Math.PI);
 
     var renderer = new THREE.WebGLRenderer();
     renderer.shadowMap.enabled = true;
     renderer.shadowMapSoft = true;
-    renderer.setSize(640, 360);
+    renderer.setSize(1600, 900);
 
     renderer.setClearColor('rgb(120, 120, 120)');
 
     document.getElementById('webgl').appendChild(renderer.domElement);
     
-    var controls = new THREE.OrbitControls(camera,renderer.domElement);
 
-    update(renderer, scene, camera, controls);
+    update(renderer, scene, camera, flyControl);
 
     return scene;
 }
@@ -205,8 +200,11 @@ function getPlane(size){
         if(mixer != undefined && keyboard[69]){
             mixer.update(delta);
         }
-        controls.update(); 
+        
 
+        controls.update(delta*10);
+
+        
         if(keyboard[87]){
             allowAnimation = !allowAnimation;
             move_1.start();
@@ -253,6 +251,12 @@ function getPlane(size){
         scene.add(model);         
     }
 
+
+
 window.addEventListener("keydown", keyDown);
+//window.addEventListener("mousemove", onmousemove, false);
+
+
+
 
 var scene = init();
