@@ -1,9 +1,20 @@
+let allowAnimation = false;
+
+let keyboard = {};//keyboard input
+
+var move_1, move_2, move_3;//tween stuff
+
+let loader, model, animation, mixer, clock, delta;//all sorts
+
 function init(){
 
     var scene = new  THREE.Scene();
     var gui = new dat.GUI();
     var enableFog = true;
-    var clock = new THREE.Clock();
+    loader = new THREE.JSONLoader();
+    clock = new THREE.Clock();
+
+
     if(enableFog){
         scene.fog = new THREE.FogExp2(0xffffff, 0.01);
     }
@@ -12,29 +23,22 @@ function init(){
     var plane = getPlane(100);
     var directionalLight = getDirectionalLight(1);
     var sphere = getSphere(0.05);
-    
-    var helper = new THREE.CameraHelper(directionalLight.shadow.camera);
     var ambientLight = getAmbientLight(1);
 
     plane.name = 'plane-1';
-   
     plane.rotation.x = Math.PI/2;
+
     directionalLight.position.x = 13;
     directionalLight.position.y = 10;
     directionalLight.position.z = 10;
-    
     directionalLight.intensity = 2;
 
-    
     scene.add(plane);
     directionalLight.add(sphere);
     scene.add(directionalLight);
-    scene.add(boxGrid);
-    scene.add(helper);
     scene.add(ambientLight);
-    
-
-
+    loader.load("../models/JSON/Chest/Chest.json", addModelAnim);
+    //loader.load("../models/JSON/Chest/Inn.json", addModel);
     
     var camera = new THREE.PerspectiveCamera(
         45,
@@ -63,47 +67,51 @@ function init(){
     scene.add(cameraYRotation);
 
     cameraYPosition.position.y = 1;
-    cameraZPosition.position.z = 100;
-    cameraXRotation.rotation.x = -Math.PI/2;
+    cameraZPosition.position.z = 30;
+    cameraXRotation.rotation.x = -Math.PI/6;
 
-    new TWEEN.Tween({val: 100})
+
+    move_1 = new TWEEN.Tween({val: 100})
         .to({val: -50}, 12000)
         .onUpdate(function(){
             cameraZPosition.position.z = this.val;
         })
-        .start();
 
-    new TWEEN.Tween({val: -Math.PI/2})
+
+    move_2 = new TWEEN.Tween({val: -Math.PI/2})
         .to({val: 0}, 6000)
         .delay(1000)
         .easing(TWEEN.Easing.Quadratic.InOut)
         .onUpdate(function() {
             cameraXRotation.rotation.x = this.val;
         })
-        .start();
 
-    new TWEEN.Tween({val: 0})
+    move_3 = new TWEEN.Tween({val: 0})
         .to({val: Math.PI/2}, 6000)
         .delay(1000)
         .easing(TWEEN.Easing.Quadratic.InOut)
         .onUpdate(function() {
             cameraYRotation.rotation.y = this.val;
         })
-        .start();
+        
 
     gui.add(cameraZPosition.position, 'z', 0, 100);
     gui.add(cameraYRotation.rotation, 'y', -Math.PI, Math.PI);
     gui.add(cameraXRotation.rotation, 'x', -Math.PI, Math.PI);
     gui.add(cameraZRotation.rotation, 'z', -Math.PI, Math.PI);
+
     var renderer = new THREE.WebGLRenderer();
     renderer.shadowMap.enabled = true;
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMapSoft = true;
+    renderer.setSize(640, 360);
+
     renderer.setClearColor('rgb(120, 120, 120)');
+
     document.getElementById('webgl').appendChild(renderer.domElement);
     
     var controls = new THREE.OrbitControls(camera,renderer.domElement);
 
-    update(renderer, scene, camera, controls, clock);
+    update(renderer, scene, camera, controls);
 
     return scene;
 }
@@ -184,21 +192,67 @@ function getPlane(size){
         light.shadow.mapSize.width = 4096;
         light.shadow.mapSize.height = 4096;
         return light;
-
     }
 
-    function update(renderer, scene, camera, controls, clock){
+    function update(renderer, scene, camera, controls){
         renderer.render(
             scene,
             camera
         );    
-        controls.update(); 
-        TWEEN.update();
-        var timeElapsed = clock.getElapsedTime(); 
+        delta = clock.getDelta();
         
+        
+        if(mixer != undefined && keyboard[69]){
+            mixer.update(delta);
+        }
+        controls.update(); 
+
+        if(keyboard[87]){
+            allowAnimation = !allowAnimation;
+            move_1.start();
+            move_2.start();
+            move_3.start();
+            keyboard[87] = false;
+        }
+            
+
+        if(allowAnimation)
+            TWEEN.update();
 
         requestAnimationFrame(function(){
-            update(renderer, scene, camera, controls, clock);
-        })
+            update(renderer, scene, camera, controls);
+        });
+
+        
+
     }
+
+
+    function keyDown(e){
+        keyboard[e.keyCode] = true;
+    }
+
+    function addModelAnim(geometry, materials){
+        for(var i = 0; i< materials.length; i++){
+            materials[i].morphTargets = true;
+        }
+        materials.skinning = true;
+        model = new THREE.Mesh(geometry, materials);
+        model.receiveShadow = true;
+        model.castShadow = true;
+        mixer = new THREE.AnimationMixer(model); 
+        var clips = model.geometry.animations;     
+        var action = mixer.clipAction( clips[0] );
+        action.play();
+        scene.add(model);      
+    }
+    function addModel(geometry, materials){
+        model = new THREE.Mesh(geometry, materials);
+        model.receiveShadow = true;
+        model.castShadow = true;
+        scene.add(model);         
+    }
+
+window.addEventListener("keydown", keyDown);
+
 var scene = init();
