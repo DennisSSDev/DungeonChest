@@ -8,5 +8,22 @@ canvas{
     display: block;
     margin: auto;
     padding-top: 50px;
+    max-height: 650px;
+}
+#curtain {
+    background: black;
+    opacity: 0;
+}
+.screen-change {
+    animation-name: screen-change;
+    animation-duration: 2s;
+}
+
+@keyframes screen-change {
+    0% {opacity: 0;}
+    30% {opacity: 1;}
+    /* Waiting time */
+    70% {opacity: 1;}
+    100% {opacity: 0;}
 }
 
