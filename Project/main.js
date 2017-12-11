@@ -19,7 +19,9 @@ var lastFrame, currentFrame = 0;
 var clicked, highlighted = false;
 var totalAnimTime = 8.9;
 var one_chance = true;
-var mouseY;
+var mouseY, mouseX;
+var allowRenderScroll = true;
+var resized = false;
 function init(){
 
     scene = new  THREE.Scene();
@@ -191,7 +193,7 @@ function init(){
     renderer.shadowMap.enabled = true;
     renderer.physicallyCorrectLights = true;
     renderer.shadowMapSoft = true;
-    renderer.setSize(1280, 650);
+    renderer.setSize(window.innerWidth/1.5, window.innerHeight/1.25);
 
     renderer.setClearColor('rgb(0, 0, 0)');
 
@@ -288,12 +290,12 @@ function getPlane(size){
     }
 
     function update(renderer, scene, camera, controls){
-        
+       
         var delta1 = clock.getDelta() * spawnerOptions.timeScale;
         
         lastFrame = tick;
         
-        if(mouseY < 730)
+        if(mouseY < 650 && mouseY > 10 && mouseX > 120 && mouseX < 1400)
             controls.update(delta1*10);
         
         tick += delta1;
@@ -355,7 +357,6 @@ function getPlane(size){
                 changeScene();
                 one_chance = false;
             }
-            console.log(totalAnimTime);
         }
             
     }
@@ -449,6 +450,7 @@ function getPlane(size){
 
     function onMouseMove( event ) {
         mouseY = event.clientY;
+        mouseX = event.clientX;
         mouse.x = ( event.clientX / 1600 ) * 2 - 1;
         mouse.y = - ( event.clientY / 900 ) * 2 + 1;     
     
@@ -477,19 +479,25 @@ function getPlane(size){
     function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize( window.innerWidth/1.5, window.innerHeight/1.25);
+        resized = true;
     }
 
     function changeScene() {
         // Trigger animation
         var div = document.getElementById("curtain");
-        div.style.margin = "auto";
         div.style.position = "absolute";
+        div.style.bottom = "0";
+        div.style.left = "0";
+        div.style.right = "0";
+        div.style.marginLeft = "auto"; 
+        div.style.marginRight = "auto"; 
         
-        div.style.top = "50px";
-        div.style.left = "215px";
-        div.style.width = "1280px";
-        div.style.height = "650px";
+        div.style.width = window.innerWidth/1.5 + "px"; 
+        div.style.height =  window.innerHeight/1.25 + "px";
+            
+        
+            
         div.classList.remove("screen-change");
         div.offsetWidth;
         div.classList.add("screen-change");
@@ -502,6 +510,17 @@ function getPlane(size){
             
         }, 1000);
     };
+    window.addEventListener('scroll', () => {
+        
+        if($(document).scrollTop() > 95){
+            allowRender = false;
+        }
+        else{
+            allowRender = true;
+        }
+        //element is almost about to be visible, time to start rendering
+        
+    });
 
 
 
