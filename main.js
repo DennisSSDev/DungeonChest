@@ -41,7 +41,7 @@ function init(){
     scene_3.name = "second_item";
     scene_4 = new THREE.Scene();
     scene_4.name =  "third_item";
-    scene_selector = 1;
+    scene_selector = 0;
 
     
     //var gui = new dat.GUI();//add this to help with gui values
