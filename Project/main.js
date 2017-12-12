@@ -305,8 +305,7 @@ function getPlane(size){
             options.position.y = (Math.sin( tick * spawnerOptions.verticalSpeed ) * 1.5)+6;
             options.position.z = (Math.sin( tick * spawnerOptions.horizontalSpeed + spawnerOptions.verticalSpeed ) * 8) -2;
             for ( var x = 0; x < spawnerOptions.spawnRate * delta1; x++ ) {
-                // Yep, that's really it.	Spawning particles is super cheap, and once you spawn them, the rest of
-                // their lifecycle is handled entirely on the GPU, driven by a time uniform updated below
+                
                 particleSYS.spawnParticle( options );
             }
         }
@@ -340,7 +339,7 @@ function getPlane(size){
             move_2.start();
             move_3.start();
             move_4.start();
-            console.log("started_moving");
+            
         }
         if(lastFrame>currentFrame){
             clicked = false;
@@ -497,8 +496,8 @@ function getPlane(size){
         div.style.marginRight = "auto"; 
         var sizes = renderer.getSize();
         div.style.width = sizes.width +"px";
-        div.style.height = sizes.height - 130 + "px";
-        div.style.top = "100px";
+        div.style.height = sizes.height - 90 + "px";
+        div.style.top = "105px";
             
         
             
