@@ -185,7 +185,7 @@ footer{
 #text{
     background-image: url("../svgs/cb_bg_2.svg") ;
     background-size: 110%;
-    background-position: bottom 20px;
+    background-position: 20px;
 }
 #main_gig{
     padding-bottom: 20px;
