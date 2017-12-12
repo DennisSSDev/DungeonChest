@@ -25,7 +25,7 @@ var resized = false;
 function init(){
 
     scene = new  THREE.Scene();
-    var gui = new dat.GUI();//add this to help with gui values
+    //var gui = new dat.GUI();//add this to help with gui values
     var enableFog = true;
     loader = new THREE.JSONLoader();
     clock = new THREE.Clock();
@@ -109,7 +109,7 @@ function init(){
         timeScale: 1
     };
 
-
+    /*
     gui.add( options, "velocityRandomness", 0, 3 );
     gui.add( options, "positionRandomness", 0, 3 );
     gui.add( options, "size", 1, 20 );
@@ -119,7 +119,7 @@ function init(){
     gui.add( options, "turbulence", 0, 1 );
     gui.add( spawnerOptions, "spawnRate", 10, 30000 );
     gui.add( spawnerOptions, "timeScale", -1, 1 );
-
+    */
     scene.add(camera);
     camera.position.y = 12;
     camera.position.z = 20;
@@ -295,7 +295,7 @@ function getPlane(size){
         
         lastFrame = tick;
         
-        if(mouseY < 650 && mouseY > 10 && mouseX > 120 && mouseX < 1400)
+        if(mouseY < 750 && mouseY > 10 && mouseX > 200 && mouseX < 1600)
             controls.update(delta1*10);
         
         tick += delta1;
@@ -353,7 +353,7 @@ function getPlane(size){
         if(allowAnimation){
             TWEEN.update();
             totalAnimTime -= 0.075;
-            if(totalAnimTime < -3 && one_chance){
+            if(totalAnimTime < -0.5 && one_chance){
                 changeScene();
                 one_chance = false;
             }
@@ -451,8 +451,8 @@ function getPlane(size){
     function onMouseMove( event ) {
         mouseY = event.clientY;
         mouseX = event.clientX;
-        mouse.x = ( event.clientX / 1600 ) * 2 - 1;
-        mouse.y = - ( event.clientY / 900 ) * 2 + 1;     
+        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+        mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;     
     
         raycaster.setFromCamera( mouse, camera );   
         if(mesh == undefined)
@@ -486,15 +486,19 @@ function getPlane(size){
     function changeScene() {
         // Trigger animation
         var div = document.getElementById("curtain");
+        var canvas = document.querySelector("canvas");
         div.style.position = "absolute";
         div.style.bottom = "0";
         div.style.left = "0";
         div.style.right = "0";
+        
+        div.style.zIndex = "1";
         div.style.marginLeft = "auto"; 
         div.style.marginRight = "auto"; 
-        
-        div.style.width = window.innerWidth/1.5 + "px"; 
-        div.style.height =  window.innerHeight/1.25 + "px";
+        var sizes = renderer.getSize();
+        div.style.width = sizes.width +"px";
+        div.style.height = sizes.height - 130 + "px";
+        div.style.top = "100px";
             
         
             
@@ -521,8 +525,38 @@ function getPlane(size){
         //element is almost about to be visible, time to start rendering
         
     });
+    function hovering(elem){
+        elem.style.filter = "saturate(3)";
+    }
+    function Nothovering(elem){
+        elem.style.filter = "saturate(1)";
+    }
+
+var lines = document.querySelectorAll(".box");
+var items = document.querySelectorAll(".t_link");
 
 
+var exe_1 = function(){
+    hovering(lines[0]);
+}
+
+var exe_2 = function(){
+    hovering(lines[1]);
+}
+
+var exe_3 = function(){
+    Nothovering(lines[0]);
+}
+
+var exe_4 = function(){
+    Nothovering(lines[1]);
+}
+
+items[0].addEventListener("mouseover", exe_1);
+items[1].addEventListener("mouseover", exe_2);
+
+items[0].addEventListener("mouseout", exe_3);
+items[1].addEventListener("mouseout", exe_4);
 
 window.addEventListener("keydown", keyDown);
 document.addEventListener("visibilitychange", handleVisibilityChange, false);
