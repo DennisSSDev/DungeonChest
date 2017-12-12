@@ -6,10 +6,12 @@ let keyboard = {};//keyboard input
 var move_0,move_0_1, move_1, move_2, move_3;//tween stuff
 
 let loader, model, animation, mixer, clock, flyControl;//all sorts of stuff
-
+var orbitControls, orbitControls_1, orbitControls_2;//orbit around the 3 models
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
-var camera, scene, renderer;
+var camera, camera_1, camera_2, camera_3, camera_4,
+    scene, scene_1, scene_2, scene_3,scene_4, scene_selector,
+    renderer;
 var mesh, defaultColor, mainInn;
 var uvSet;
 var particleSYS,options, spawnerOptions;
@@ -22,15 +24,36 @@ var one_chance = true;
 var mouseY, mouseX;
 var allowRenderScroll = true;
 var resized = false;
+var itemNum;
+
+
+var chestOpen, gun,book,crystal;//the rest of the models
+var gun_copy,book_copy,crystal_copy;
 function init(){
 
     scene = new  THREE.Scene();
+    scene.name = "Title_scene";
+    scene_1 = new THREE.Scene();
+    scene_1.name = "OpenedChest_scene";
+    scene_2 = new THREE.Scene();
+    scene_2.name = "first_item";
+    scene_3 = new THREE.Scene();
+    scene_3.name = "second_item";
+    scene_4 = new THREE.Scene();
+    scene_4.name =  "third_item";
+    scene_selector = 1;
+
+    
     //var gui = new dat.GUI();//add this to help with gui values
     var enableFog = true;
     loader = new THREE.JSONLoader();
     clock = new THREE.Clock();
-    
-    
+    var cube = getPlane(20);
+    var light_00 = getAmbientLight(3);
+    var light_01 = getAmbientLight(3);
+    scene_1.add(light_00);
+
+    scene_2.add(light_01);
     
    
     if(enableFog == true){
@@ -59,7 +82,6 @@ function init(){
 
     var pointLight_3 = getPointLight(3,0xf2e0d0,0,0.8);//this is a big candle
     pointLight_3.position = reposition(pointLight_3.position,1.5,10.5,-19); 
-    //pointLight_3.add(sphere2);
     scene.add(pointLight_3);
 
 
@@ -74,19 +96,111 @@ function init(){
 
     loader.load("../models/JSON/Inn/Inn.json", addModel);
     loader.load("../models/JSON/Chest/Chest.json", addModelAnim);
-    
+    loader.load("../models/JSON/Chest/Chest_Open.json", function(geometry, materials){
+        materials[0].skinning = true;
+        chestOpen = new THREE.Mesh(geometry, materials);
+        chestOpen.scale.set(1.5,1.5,1.5);
+        chestOpen.receiveShadow = true;
+        chestOpen.castShadow = true;
+        //chestOpen.material[0].shininess = 0;
+        scene_1.add(chestOpen); 
+    });
+    loader.load("../models/JSON/Crystal/Crystal.json", function(geometry, materials){
+        materials[0].skinning = true;
+        crystal = new THREE.Mesh(geometry, materials);
+        crystal.scale.set(.6,.6,.6);
+        crystal.position.set(-3.5,1.3,-0.2);
+        crystal.receiveShadow = true;
+        crystal.castShadow = true;
+        crystal.name = "crystal";
+        scene_1.add(crystal);
+        
+        //add to the special scene immediately 
+    });
+    loader.load("../models/JSON/Crystal/Crystal.json", function(geometry, materials){
+        materials[0].skinning = true;
+        crystal_copy = new THREE.Mesh(geometry, materials);
+        crystal_copy.position.set(1,1,0);
+        crystal_copy.receiveShadow = true;
+        crystal_copy.castShadow = true;
+        scene_2.add(crystal_copy);
+        //add to the special scene immediately 
+    });
+    loader.load("../models/JSON/Magic_Book/Magic_Book.json", function(geometry, materials){
+        materials[0].skinning = true;
+        book = new THREE.Mesh(geometry, materials);
+        book.scale.set(0.48,0.48,0.48);
+        book.position.set(0,1,0);
+        book.receiveShadow = true;
+        book.castShadow = true;
+        book.name = "book";
+        scene_1.add(book);
+    });
+    loader.load("../models/JSON/Magic_Book/Magic_Book.json", function(geometry, materials){
+        materials[0].skinning = true;
+        book_copy = new THREE.Mesh(geometry, materials);
+        book_copy.receiveShadow = true;
+        book_copy.castShadow = true;
+        scene_3.add(book_copy);//add to the special scene immediately 
+    });
+    loader.load("../models/JSON/rifle/Rifle.json", function(geometry, materials){
+        materials[0].skinning = true;
+        gun = new THREE.Mesh(geometry, materials);
+        gun.scale.set(0.48,0.48,0.48);
+        gun.position.set(2,2,-0.6);
+        gun.rotation.set(0,0,-Math.PI/2);
+        gun.receiveShadow = true;
+        gun.castShadow = true;   
+        gun.name = "gun";   
+        scene_1.add(gun); 
+    });
+    loader.load("../models/JSON/rifle/Rifle.json", function(geometry, materials){
+        materials[0].skinning = true;
+        gun_copy = new THREE.Mesh(geometry, materials);
+        gun_copy.receiveShadow = true;
+        gun_copy.castShadow = true;
+        scene_4.add(gun_copy);//add to the special scene immediately 
+    });
     
     camera = new THREE.PerspectiveCamera(
         60,//angle
-        1280/650,//aspect
+        (window.innerWidth/1.5)/(window.innerHeight/1.25),//aspect
         1,
         1000
     );
+    scene.add(camera);
+    camera_1 = new THREE.PerspectiveCamera(
+        60,//angle
+        (window.innerWidth/1.5)/(window.innerHeight/1.25),//aspect
+        1,
+        1000
+    );
+    scene_1.add(camera_1);
+    camera_2 = new THREE.PerspectiveCamera(
+        60,//angle
+        (window.innerWidth/1.5)/(window.innerHeight/1.25),//aspect
+        1,
+        1000
+    );
+    scene_2.add(camera_2);
+    camera_3 = new THREE.PerspectiveCamera(
+        60,//angle
+        (window.innerWidth/1.5)/(window.innerHeight/1.25),//aspect
+        1,
+        1000
+    );
+    scene_3.add(camera_3);
+    camera_4 = new THREE.PerspectiveCamera(
+        60,//angle
+        (window.innerWidth/1.5)/(window.innerHeight/1.25),//aspect
+        1,
+        1000
+    );
+    scene_4.add(camera_4);
 
     particleSYS = new THREE.GPUParticleSystem( {
         maxParticles: 25000
     } );
-    
     scene.add( particleSYS );
 
 
@@ -120,13 +234,34 @@ function init(){
     gui.add( spawnerOptions, "spawnRate", 10, 30000 );
     gui.add( spawnerOptions, "timeScale", -1, 1 );
     */
-    scene.add(camera);
+    
     camera.position.y = 12;
     camera.position.z = 20;
-    
+
+    camera_1.position.y = 8;
+    camera_1.position.z = 1.5;
+
+    camera_2.position.y = 12;
+    camera_2.position.z = 20;
+
+    camera_3.position.y = 12;
+    camera_3.position.z = 20;
+
+    camera_4.position.y = 12;
+    camera_4.position.z = 20;
+
     flyControl = new THREE.FlyControls(camera, document.querySelector("#webgl"));
+    orbitControls = new THREE.OrbitControls( camera_2, document.querySelector("#webgl") );
+    orbitControls.zoom = false;
+
+
     var initial = new THREE.Vector3( 0, 1, 0 );
+
     camera.lookAt(initial);
+    camera_1.lookAt(initial);
+    camera_2.lookAt(initial);
+    camera_3.lookAt(initial);
+    camera_4.lookAt(initial);
     
     var Euler = new THREE.Euler(-0.5, 0 ,0, 'XYZ');
     initial = new THREE.Vector3(0.1, 0, -4);
@@ -200,9 +335,7 @@ function init(){
     document.getElementById('webgl').appendChild(renderer.domElement);
     
 
-    update(renderer, scene, camera, flyControl);
-
-    return scene;
+    update(renderer, scene, camera, flyControl);//pass in the first scene on init
 }
 
 function getBox(w, h, d){
@@ -289,17 +422,21 @@ function getPlane(size){
         return light;
     }
 
-    function update(renderer, scene, camera, controls){
+    function update(renderer, cur_scene, cur_camera, controls){
+       var array_out = determinScene();
+       cur_scene = array_out[0];
+       cur_camera = array_out[1];
+       var delta1 = clock.getDelta() * spawnerOptions.timeScale;
        
-        var delta1 = clock.getDelta() * spawnerOptions.timeScale;
-        
-        lastFrame = tick;
+       lastFrame = tick;
+       tick += delta1;
+       if ( tick < 0 ) tick = 0;
+
+       if(scene_selector == 0){
         
         if(mouseY < 750 && mouseY > 10 && mouseX > 200 && mouseX < 1600)
             controls.update(delta1*10);
         
-        tick += delta1;
-        if ( tick < 0 ) tick = 0;
         if ( delta1 > 0 ) {
             options.position.x = (Math.sin( tick * spawnerOptions.horizontalSpeed ) * 7)+.75;
             options.position.y = (Math.sin( tick * spawnerOptions.verticalSpeed ) * 1.5)+6;
@@ -310,21 +447,9 @@ function getPlane(size){
             }
         }
         particleSYS.update( tick );
-        
-        if(allowRender){
-        
-        renderer.render(
-            scene,
-            camera
-        );    
-        
-        
         if(allowAnimation){
             mixer.update(delta1);
         }
-        
-
-       
         camera.rotation.x = Clamp(-0.6,camera.rotation.x,-0.1);
         camera.rotation.z = 0;
         
@@ -341,13 +466,6 @@ function getPlane(size){
             move_4.start();
             
         }
-        if(lastFrame>currentFrame){
-            clicked = false;
-        }
-        
-
-
-
 
         if(allowAnimation){
             TWEEN.update();
@@ -357,11 +475,33 @@ function getPlane(size){
                 one_chance = false;
             }
         }
-            
+       }
+
+       
+       if(scene_selector == 1){
+           if(mouseY < 750 && mouseY > 10 && mouseX > 200 && mouseX < 1600)
+                orbitControls.update();
+                console.log(itemNum);
+            if(itemNum != 0 && clicked){
+                changeScene();
+            }
+
+       }
+       if(lastFrame>currentFrame){
+            clicked = false;
+        }
+       
+       
+        if(allowRender){
+        
+        renderer.render(
+            cur_scene,
+            cur_camera
+        );               
     }
 
         requestAnimationFrame(function(){
-            update(renderer, scene, camera, controls);
+            update(renderer, cur_scene, cur_camera, controls);
         });
 
         
@@ -382,8 +522,7 @@ function getPlane(size){
         model = new THREE.Mesh(geometry, materials);
         model.receiveShadow = true;
         model.castShadow = true;
-        console.log(model);
-        console.log(model.position);
+        model.name = "chest";
         mixer = new THREE.AnimationMixer(model); 
         var clips = model.geometry.animations;     
         var action = mixer.clipAction( clips[0] );
@@ -450,29 +589,77 @@ function getPlane(size){
     function onMouseMove( event ) {
         mouseY = event.clientY;
         mouseX = event.clientX;
-        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-        mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;     
-    
-        raycaster.setFromCamera( mouse, camera );   
-        if(mesh == undefined)
+        mouse.x = ( ((event.clientX)) / ((window.innerWidth))) * 2 - 1;
+        mouse.y = - ( (event.clientY) / (window.innerHeight) ) * 2 + 1; 
+
+        var active = determinScene();
+        
+        
+        raycaster.setFromCamera( mouse, active[1] );   
+        if(mesh == undefined || book == undefined || gun == undefined || crystal == undefined)
             return;
           
-        var intersects = raycaster.intersectObject(mesh);
-        
-        
-        if(intersects.length > 0){
+        var intersects = raycaster.intersectObjects(active[0].children);
+
+            if(scene_selector == 0){
+                for(var i = 0; i<intersects.length; i++){
+                    if(intersects[i].object.name == "chest" ){
+                        
+                        mesh.material[0].color = new THREE.Color(0xB4FAF1);
+                        highlighted = true;
+                        break;
+                    }       
+                    else{
+                        mesh.material[0].color  = new THREE.Color(0.5,0.5,0.5);
+                        highlighted = false;
+                    }
+                }
+                
+            }
             
-            mesh.material[0].color = new THREE.Color(0xB4FAF1);
-            highlighted = true;
-        }
-
-
-        
-        else{
-            mesh.material[0].color  = new THREE.Color(0.5,0.5,0.5);
-            highlighted = false;
-        }
-        
+            if(scene_selector==1 ){ 
+                for(var i = 0; i<intersects.length; i++){
+                    if(intersects[i].object.name == "crystal" ){
+                        console.log("here");
+                        itemNum = 1;
+                        crystal.material[0].color = new THREE.Color(0xB4FAF1);
+                        
+                        break;
+                    }       
+                    else{
+                        crystal.material[0].color  = new THREE.Color(0.5,0.5,0.5);
+                        itemNum = 0;
+                    }
+                }
+                if(itemNum == 1)
+                    return;
+                for(var i = 0; i<intersects.length; i++){
+                    if(intersects[i].object.name == "book" ){
+                        itemNum = 2;
+                        book.material[0].color = new THREE.Color(0xB4FAF1);
+                        
+                        break;
+                    }       
+                    else{
+                        book.material[0].color  = new THREE.Color(0.5,0.5,0.5);
+                        itemNum = 0;
+                    }
+                }
+                if(itemNum == 2)
+                    return;
+                for(var i = 0; i<intersects.length; i++){
+                    if(intersects[i].object.name == "gun" ){
+                        itemNum = 3;
+                        gun.material[0].color = new THREE.Color(0xB4FAF1);
+                        
+                        break;
+                    }       
+                    else{
+                        gun.material[0].color  = new THREE.Color(0.5,0.5,0.5);
+                        itemNum = 0;
+                    }
+                }
+            }           
     }
 
     function onWindowResize() {
@@ -507,12 +694,71 @@ function getPlane(size){
        
         // Trigger scene change
         setTimeout(function() {
-            // Your real code should go here. I've added something
-            // just to demonstrate the change
-            var color = color == "#0000FF"? "#FF0000" : "#0000FF";
+            
+            if(scene_selector == 0){
+                scene_selector+=1;
+            }
+            else if(scene_selector == 1){
+                scene_selector += itemNum;
+            }
+            else{
+                scene_selector = 1;
+            }
             
         }, 1000);
     };
+    function determinScene(){
+        var out_scene;
+        var out_cam;
+        switch(scene_selector){
+            case 0:
+                out_scene = scene;
+                out_cam = camera;
+                break;
+            case 1:
+            
+                out_scene = scene_1;
+                out_cam = camera_1;
+                break;
+            case 2:
+                out_scene = scene_2;
+                out_cam = camera_2;
+                break;
+            case 3:
+                out_scene = scene_3;
+                out_cam = camera_3;
+                break;
+            case 4:
+                out_scene = scene_4;
+                out_cam = camera_4;
+                break;
+        }
+        var array = [out_scene,out_cam];
+        return array;
+    }
+
+    function determinCam(){
+        var out_cam;
+        switch(scene_selector){
+            case 0:
+                out_cam = camera;
+                break;
+            case 1:
+                out_cam = camera_1;
+                break;
+            case 2:
+                out_cam = camera_2;
+                break;
+            case 3:
+                out_cam = camera_3;
+                break;
+            case 4:
+                out_cam = camera_4;
+                break;
+        }
+        return out_cam;
+    }
+
     window.addEventListener('scroll', () => {
         
         if($(document).scrollTop() > 95){
@@ -568,4 +814,4 @@ document.querySelector("body").addEventListener("click", function( event ) {
     console.log(clicked);
   }, false);
 
-var scene = init();
+init();
