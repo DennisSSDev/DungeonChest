@@ -17,6 +17,19 @@ html, body {
     padding: 0 16px;
     background: url("../svgs/long_top.svg") repeat-x 0 0/auto 100%;
 }
+.global-header{
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    text-align: center;
+}
+.global-header > p{
+    transition-duration: 0.1s;
+}
+.global-header > p:hover{
+    color:white;
+    cursor: pointer;
+}
 
 .global-header:after {
     height: calc(100% + 12px);
@@ -61,6 +74,17 @@ h1{
     text-align: center;
     font-size: 60px;
 }
+#UI{
+    display: block;
+    position: absolute;    
+    right: 0; 
+    bottom: 250px;
+    margin-right: 300px; 
+    
+    width: 20%;
+    z-index: 10;
+}
+
 #curtain {
     background: black;
     opacity: 0;
@@ -68,7 +92,7 @@ h1{
 }
 .screen-change {
     animation-name: screen-change;
-    animation-duration: 2s;
+    animation-duration: 2.5s;
 }
     .st0{fill:#F7DDA9;}
     .st1{fill:#CC9252;}
@@ -203,9 +227,42 @@ footer{
     font-size: 40px;
 }
 .img_container{
-    position: relative;
-    
+    position: relative;  
 }
+
+#webgl>p{
+    
+    color: white;
+    position: absolute;
+    font-size: 25px;
+    right: 300px; 
+   
+    margin-right: auto; 
+    
+    z-index: 2;
+    top: 150px;
+    
+    display: block;
+    width: 20%;
+}
+#webgl>h2{
+    
+    color: white;
+    position: absolute;
+    font-size: 25px;
+    right: 300px; 
+   
+    margin-right: auto; 
+    
+    z-index: 2;
+    top: 90px;
+    
+    display: block;
+    width: 20%;
+}
+
+
+
 .box {
     position: absolute;
     left: 0; 
@@ -215,7 +272,7 @@ footer{
     top: 140px;
     width: 80%;
     z-index: 1;
-    transition-duration: 1s;
+    transition-duration: 1.5s;
   }
 .kraken{
     background-color: transparent;
@@ -242,9 +299,34 @@ a { color: inherit; text-decoration: none;}
     
     
 }
+#UI{
+    display: none;
+    min-width: 400px;
+    width: 400px;
+    
+}
+#UILink{
+    position: absolute;
+    left: 0; 
+    right: 0px; 
+    margin-left: auto; 
+    margin-right: auto; 
+    text-align: center;
+    z-index: 2;
+    top: 150px;
+    width: 100%;
+    font-size: 45px;
+    font: bolder;
+    color: white;
+    cursor: pointer;
+    
+}
+h4{
+    background-color: none;
+}
 
 .box:hover{
-    filter: saturate(3);
+    filter: saturate(4.5);
 }
 
 

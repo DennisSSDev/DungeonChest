@@ -25,6 +25,8 @@ var mouseY, mouseX;
 var allowRenderScroll = true;
 var resized = false;
 var itemNum;
+var clips;
+var delta1;
 
 
 var chestOpen, gun,book,crystal;//the rest of the models
@@ -50,11 +52,16 @@ function init(){
     clock = new THREE.Clock();
     var cube = getPlane(20);
     var light_00 = getAmbientLight(3);
-    var light_01 = getAmbientLight(3);
+    var light_01 = getAmbientLight(4.5);
+    var light_02 = getAmbientLight(4.5);
+    var light_03 = getAmbientLight(4.5);
     scene_1.add(light_00);
 
     scene_2.add(light_01);
     
+    scene_3.add(light_02);
+
+    scene_4.add(light_03);
    
     if(enableFog == true){
         scene.fog = new THREE.FogExp2(0xf58012, 0.0005);
@@ -130,7 +137,7 @@ function init(){
         materials[0].skinning = true;
         book = new THREE.Mesh(geometry, materials);
         book.scale.set(0.48,0.48,0.48);
-        book.position.set(0,1,0);
+        book.position.set(0,1.2,0);
         book.receiveShadow = true;
         book.castShadow = true;
         book.name = "book";
@@ -159,6 +166,8 @@ function init(){
         gun_copy = new THREE.Mesh(geometry, materials);
         gun_copy.receiveShadow = true;
         gun_copy.castShadow = true;
+        gun_copy.rotation.set(0,Math.PI/2,0);
+        gun_copy.position.set(0,-2,0);
         scene_4.add(gun_copy);//add to the special scene immediately 
     });
     
@@ -241,18 +250,20 @@ function init(){
     camera_1.position.y = 8;
     camera_1.position.z = 1.5;
 
-    camera_2.position.y = 12;
-    camera_2.position.z = 20;
+    camera_2.position.y = 7;
+    camera_2.position.z = 2;
+    camera_2.position.x = 8;
 
-    camera_3.position.y = 12;
-    camera_3.position.z = 20;
+    camera_3.position.y = 10;
+    camera_3.position.z = 10;
 
-    camera_4.position.y = 12;
-    camera_4.position.z = 20;
+    camera_4.position.y = 0;
+    camera_4.position.z = 10;
 
     flyControl = new THREE.FlyControls(camera, document.querySelector("#webgl"));
     orbitControls = new THREE.OrbitControls( camera_2, document.querySelector("#webgl") );
-    orbitControls.zoom = false;
+    orbitControls_1 = new THREE.OrbitControls( camera_3, document.querySelector("#webgl") );
+    orbitControls_2 = new THREE.OrbitControls( camera_4, document.querySelector("#webgl") );
 
 
     var initial = new THREE.Vector3( 0, 1, 0 );
@@ -426,7 +437,7 @@ function getPlane(size){
        var array_out = determinScene();
        cur_scene = array_out[0];
        cur_camera = array_out[1];
-       var delta1 = clock.getDelta() * spawnerOptions.timeScale;
+       delta1 = clock.getDelta() * spawnerOptions.timeScale;
        
        lastFrame = tick;
        tick += delta1;
@@ -452,7 +463,6 @@ function getPlane(size){
         }
         camera.rotation.x = Clamp(-0.6,camera.rotation.x,-0.1);
         camera.rotation.z = 0;
-        
         camera.rotation.y = Clamp(-0.3,camera.rotation.y,0.01);
         
         if(highlighted && clicked){
@@ -470,18 +480,17 @@ function getPlane(size){
         if(allowAnimation){
             TWEEN.update();
             totalAnimTime -= 0.075;
-            if(totalAnimTime < -0.5 && one_chance){
+            if(totalAnimTime < -2.5 && one_chance){
                 changeScene();
                 one_chance = false;
+                
             }
         }
        }
 
        
        if(scene_selector == 1){
-           if(mouseY < 750 && mouseY > 10 && mouseX > 200 && mouseX < 1600)
-                orbitControls.update();
-                console.log(itemNum);
+                console.log(scene_selector);
             if(itemNum != 0 && clicked){
                 changeScene();
             }
@@ -524,7 +533,7 @@ function getPlane(size){
         model.castShadow = true;
         model.name = "chest";
         mixer = new THREE.AnimationMixer(model); 
-        var clips = model.geometry.animations;     
+        clips = model.geometry.animations;     
         var action = mixer.clipAction( clips[0] );
         action.play();
         
@@ -697,6 +706,8 @@ function getPlane(size){
             
             if(scene_selector == 0){
                 scene_selector+=1;
+                UI_menu.style.display = "block";
+                allowAnimation = false;
             }
             else if(scene_selector == 1){
                 scene_selector += itemNum;
@@ -779,29 +790,79 @@ function getPlane(size){
 
 var lines = document.querySelectorAll(".box");
 var items = document.querySelectorAll(".t_link");
-
+var UI_menu = document.querySelector("#UI");
 
 var exe_1 = function(){
-    hovering(lines[0]);
-}
-
-var exe_2 = function(){
     hovering(lines[1]);
 }
-
 var exe_3 = function(){
-    Nothovering(lines[0]);
-}
-
-var exe_4 = function(){
     Nothovering(lines[1]);
 }
 
+var exe_2 = function(){
+    hovering(lines[2]);
+}
+var exe_4 = function(){
+    Nothovering(lines[2]);
+}
+
+var exe_5 = function(){
+    hovering(lines[0]);
+}
+var exe_6 = function(){
+    Nothovering(lines[0]);
+}
+
 items[0].addEventListener("mouseover", exe_1);
+items[0].addEventListener("mouseout", exe_3);
+
+items[1].addEventListener("mouseout", exe_4);
 items[1].addEventListener("mouseover", exe_2);
 
-items[0].addEventListener("mouseout", exe_3);
-items[1].addEventListener("mouseout", exe_4);
+UI_menu.addEventListener("mouseover", exe_5);
+UI_menu.addEventListener("mouseout", exe_6);
+
+UI_menu.addEventListener("click", function(event){
+    var div = document.getElementById("curtain");
+    var canvas = document.querySelector("canvas");
+    div.style.position = "absolute";
+    div.style.bottom = "0";
+    div.style.left = "0";
+    div.style.right = "0";
+    
+    div.style.zIndex = "1";
+    div.style.marginLeft = "auto"; 
+    div.style.marginRight = "auto"; 
+    var sizes = renderer.getSize();
+    div.style.width = sizes.width +"px";
+    div.style.height = sizes.height - 90 + "px";
+    div.style.top = "105px";
+        
+    div.classList.remove("screen-change");
+    div.offsetWidth;
+    div.classList.add("screen-change");
+   
+    // Trigger scene change
+    setTimeout(function() {
+        
+
+        if(scene_selector == 2 || scene_selector == 3 || scene_selector == 4){
+            scene_selector = 1;
+        }
+        else{
+            scene_selector = 0;
+            UI_menu.style.display = "none";
+            camera.position.y = 12;
+            camera.position.z = 20;
+            mixer.existingAction(clips[0]).reset();
+            totalAnimTime = 8.9;
+            one_chance = true;
+            mixer.update(delta1);
+            
+        }
+        
+    }, 1000);
+}, false);
 
 window.addEventListener("keydown", keyDown);
 document.addEventListener("visibilitychange", handleVisibilityChange, false);

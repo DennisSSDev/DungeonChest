@@ -27,16 +27,24 @@
             which made my life rotating and translating object on triggers so much easier. Lastly, for some fo the controls I used pre made libraries like "ORBITCONTROLS.js"
             as they fit my project like a glove.
         </p>
+        <h2>Known Issues</h2>
+        <p>
+            As with all 3D Engines, this one isn't perfect. Due to margin adjustments for example there is no proper way in THREE.js to adjust the raycaster
+            so that the collisions would be as precise as possible. Thus, resulting in occasional incorrect collisions. This effect is especially experienced 
+            on the item selection scene where you'd have to go a little out of bounds in order to select something on the sides.
+        </p>
         <h2>How I went Above and Beyond</h2>
         <p>
-            The actual fact of dealing with THREE.js deserves a medal, as the documeentation pages for it is HEAVILY outdated and the majority of the scripts 
-            are deprecated. None the less, I stepped up my design game and created the large majorit of 2D/3D assets found in the project. (the ones used are listed in Resources).
+            The actual fact of dealing with THREE.js deserves a medal, as the documentation pages for it are HEAVILY outdated and the majority of the scripts 
+            are deprecated. Otherwise, I've stepped up my design game and created a large amount of 2D/3D assets found in the project. (the ones not made by me are listed in Resources).
             The rest of my above and beyond lies within the programming of the 3D scenes where I made sure that I was able to fit the "adventure theme" and making the project as 
-            optimized as possible through WebGL.
+            optimized as possible through WebGL. I played a lot with Lighting settings and shadow calculations in order to get the best looking output. And, I've also utilized JQuery for 
+            some fo the UI elements that are present within the simulation. Lastly, I've managed to squeeze in a particle system, that both looks nice, but also showcases how 
+            performant correctly written particle systems can be. 
         </p>
         <h2>Future Developments Planned</h2>
         <p>
-            Currently there is a place holder right underneath the render view. There I planned to add a way for the adventurer to pick a specific location on the map for him to explore throught he render view.
+            Currently there is a place holder right underneath the render view. There I planned to add a way for the adventurer to pick a specific location on the map for him to explore throught the render view.
             The 'x' mark selection will always be at one point for now. This is accomplished by adjusting svg elements.
         </p>
         <h2>Conslusion</h2>
@@ -54,6 +62,19 @@
                 <li>
                     <a href="https://github.com/tweenjs/tween.js/">TWEEN js library</a>
                 </li>
+
+                <li>
+                        <a href="https://jquery.com/">JQUERY library</a>
+                </li>
+                <li>
+                        <a href="https://github.com/mattdesl/three-orbit-controls">Orbit Controls Starter</a>
+                </li>
+                <li>
+                        <a href="https://github.com/fazeaction/three-gpu-particle-system">GPU Particle System Starter</a>
+                </li>
+
+                
+
                 <li>
                     <a href="https://sketchfab.com/feed"> Models from sketchfab</a>
                     <ul>
