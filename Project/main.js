@@ -24,7 +24,7 @@ var one_chance = true;
 var mouseY, mouseX;
 var allowRenderScroll = true;
 var resized = false;
-var itemNum;
+var itemNum, recorded;
 var clips;
 var delta1;
 
@@ -264,6 +264,9 @@ function init(){
     orbitControls = new THREE.OrbitControls( camera_2, document.querySelector("#webgl") );
     orbitControls_1 = new THREE.OrbitControls( camera_3, document.querySelector("#webgl") );
     orbitControls_2 = new THREE.OrbitControls( camera_4, document.querySelector("#webgl") );
+    orbitControls_1.enableZoom = false;
+    orbitControls_2.enableZoom = false;
+    orbitControls.enableZoom = false;
 
 
     var initial = new THREE.Vector3( 0, 1, 0 );
@@ -712,7 +715,7 @@ function getPlane(size){
                 allowAnimation = false;
             }
             else if(scene_selector == 1){
-                scene_selector += itemNum;
+                scene_selector += recorded;
             }
             else{
                 scene_selector = 1;
@@ -743,14 +746,20 @@ function getPlane(size){
             case 2:
                 out_scene = scene_2;
                 out_cam = camera_2;
+                document.querySelector("#h0_1").style.display = "block";
+                document.querySelector("#p0_2").style.display = "block";
                 break;
             case 3:
                 out_scene = scene_3;
                 out_cam = camera_3;
+                document.querySelector("#h1_1").style.display = "block";
+                document.querySelector("#p1_2").style.display = "block";
                 break;
             case 4:
                 out_scene = scene_4;
                 out_cam = camera_4;
+                document.querySelector("#h2_1").style.display = "block";
+                document.querySelector("#p2_2").style.display = "block";
                 break;
         }
         var array = [out_scene,out_cam];
@@ -844,8 +853,8 @@ UI_menu.addEventListener("click", function(event){
     div.style.marginRight = "auto"; 
     var sizes = renderer.getSize();
     div.style.width = sizes.width +"px";
-    div.style.height = sizes.height+ "px";
-    div.style.top = "300px";
+    div.style.height = sizes.height-90 + "px";
+    div.style.top = "105px";
         
     div.classList.remove("screen-change");
     div.offsetWidth;
@@ -880,6 +889,7 @@ window.addEventListener( 'resize', onWindowResize, false );
 document.querySelector("body").addEventListener("click", function( event ) {
     // display the current click count inside the clicked div
     clicked = true;
+    recorded = itemNum;
     currentFrame = lastFrame;
     console.log(clicked);
   }, false);

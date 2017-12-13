@@ -16,8 +16,6 @@ html, body {
     height: 64px;
     padding: 0 16px;
     background: url("../svgs/long_top.svg") repeat-x 0 0/auto 100%;
-}
-.global-header{
     display: flex;
     flex-flow: row;
     justify-content: center;

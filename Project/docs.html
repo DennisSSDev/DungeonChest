@@ -6,7 +6,9 @@
 </head>
 <body>
 	<header class="global-header">
-		<img id="Logo" src="../svgs/Untitled-5.png" alt="Logo Image">
+        <p><a href="https://github.com/DennisSSDev/DungeonChest">Github</a></p>
+        <img id="Logo" src="../svgs/Untitled-5.png" alt="Logo Image">
+        <p><a href="index.html">Main</a></p>
 	</header>
     <main>
         <h1>Documentation</h1>
@@ -14,24 +16,26 @@
                 <svg class="slice" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 235.13 2.5"><title>Asset 3</title><g  data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path id="slice_01.svg" data-name="slice 01.svg" class="cls-1" d="M231.3,1.51c-7.61.08-15.19.05-22.83.3,9.61.27,15.86.89,26.66,1C226.35,3.91,213.73,4,198.63,4c-4.38,0-8.66.21-12.94.25s-9-.16-13.68-.18c-6,0-11.78.15-17.49.16-35.56,0-74.08.21-108-.62,2-.05,4.07-.2,6.07-.44L16.81,3c6-.36,13.72-.37,17.48-.4A14,14,0,0,1,32,2.67a37.39,37.39,0,0,0,6.08-.1c-3-.23-8.86-.13-13-.23,1.29-.26,6.35-.11,8.37-.29C24.14,1.88,10.68,1.53,0,1.57c5.76-.41,11.83-.88,19-1C48.8-.16,88.81,0,127,.09c25.55.06,61.39.33,86.78,1C221.43,1.27,226.25,1.19,231.3,1.51Z"/></g></g></svg>
         </div>
         <h2>What Exactly is this?</h2>
-        <p>First of all, thank you for visiting this experimental project I've been working on. In its essence, "Dungeon Chest" is a web 3D rendering 
+        <p>First of all, thank you for visiting this experimental project that I've been working on. In its essence, "Dungeon Chest" is a web 3D rendering 
             engine that allowed me to visualize how 3D ojects like lighting, JSON models, textures and animations would interact in a simple 
-            browser window. It turned out quite the task to program this environment and at the same time stylize it under a "Adventure" theme.
+            browser window. It turned out to be quite the task to program this environment and at the same time stylize it under an "Adventure" theme.
         </p>
 
         <h2>How does it work?</h2>
         <p>I can write an entire research paper on the engine behind this project, but in short: it uses a 3D Web GL based JS framework "THREE.js" which
-            simplifies a lot of the calculations neccessary for a 3D scene with rendering, but most importantly, lighting. 
-            I encorporated multiple JSON files that allow the engine to produce 3D models on screen. Thus I had to go through an extra step of converting them into JSON.
+            simplifies a lot of the calculations neccessary for a 3D scene with perspective rendering, but most importantly, it enables the possibility of adding lighting. 
+            I encorporated multiple JSON files (Built a separate script that converted 3D models into JSON) that allow the engine to produce 3D models on screen.<br>
             For animations I prioritized simple tools like built in css keyframe transitions, but for in scene animations I utilized a library called "TWEEN.js",
-            which made my life rotating and translating object on triggers so much easier. Lastly, for some fo the controls I used pre made libraries like "ORBITCONTROLS.js"
-            as they fit my project like a glove.
+            which made my life rotating and translating object on triggered events so much easier. Lastly, for some of the controls I used pre-made libraries like "ORBITCONTROLS.js"
+            as they fit my project like a glove. Lastly, the entirety of the 3D code runs on a server so it requires a server configuration to run the scripts.
         </p>
         <h2>Known Issues</h2>
         <p>
             As with all 3D Engines, this one isn't perfect. Due to margin adjustments for example there is no proper way in THREE.js to adjust the raycaster
-            so that the collisions would be as precise as possible. Thus, resulting in occasional incorrect collisions. This effect is especially experienced 
-            on the item selection scene where you'd have to go a little out of bounds in order to select something on the sides.
+            so that the collisions would be as precise as possible. As a result there occasional incorrect collisions. This effect is especially visible
+            on the item selection scene where you'd have to go a little out of bounds in order to select something on the sides.<br>Another small, but present pronlem,
+            is the difficulty of optimizing the website for mobile. The project runs without problems, but due to the way the THREE.js library works it's very hard to adjust 
+            UI elements to be mobile-friendly. It's a task for the future that I hope to be able to fix at one point!
         </p>
         <h2>How I went Above and Beyond</h2>
         <p>
@@ -45,7 +49,7 @@
         <h2>Future Developments Planned</h2>
         <p>
             Currently there is a place holder right underneath the render view. There I planned to add a way for the adventurer to pick a specific location on the map for him to explore throught the render view.
-            The 'x' mark selection will always be at one point for now. This is accomplished by adjusting svg elements.
+            The 'x' mark selection will always be at one point for now. This is effect is creating by moving around svg elements, which in their turn could also be animated!.
         </p>
         <h2>Conslusion</h2>
         <p>
