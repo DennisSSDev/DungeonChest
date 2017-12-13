@@ -229,23 +229,14 @@ footer{
 .img_container{
     position: relative;  
 }
-
-#webgl>p{
-    
-    color: white;
-    position: absolute;
-    font-size: 25px;
-    right: 300px; 
-   
-    margin-right: auto; 
-    
-    z-index: 2;
-    top: 150px;
-    
-    display: block;
-    width: 20%;
+menus{
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
 }
-#webgl>h2{
+
+
+#h0_1, #h1_1,#h2_1,#h3_1 {
     
     color: white;
     position: absolute;
@@ -257,7 +248,22 @@ footer{
     z-index: 2;
     top: 90px;
     
-    display: block;
+    display: none;
+    width: 20%;
+}
+#p0_2, #p1_2, #p2_2, #p3_2{/*this should be displayed as block on chain*/
+    
+    color: white;
+    position: absolute;
+    font-size: 25px;
+    right: 300px; 
+   
+    margin-right: auto; 
+    
+    z-index: 2;
+    top: 150px;
+    
+    display: none;
     width: 20%;
 }
 

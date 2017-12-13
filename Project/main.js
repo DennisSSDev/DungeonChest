@@ -439,6 +439,7 @@ function getPlane(size){
        cur_camera = array_out[1];
        delta1 = clock.getDelta() * spawnerOptions.timeScale;
        
+       
        lastFrame = tick;
        tick += delta1;
        if ( tick < 0 ) tick = 0;
@@ -675,6 +676,7 @@ function getPlane(size){
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize( window.innerWidth/1.5, window.innerHeight/1.25);
+        document.querySelector("#curtain").style.width = window.innerWidth/1.5 +"px";
         resized = true;
     }
 
@@ -721,15 +723,22 @@ function getPlane(size){
     function determinScene(){
         var out_scene;
         var out_cam;
+        var allElem = document.querySelectorAll(".UIelem");
+        for(var i = 0; i<allElem.length; i++){
+            allElem[i].style.display = "none";
+        }
         switch(scene_selector){
             case 0:
                 out_scene = scene;
                 out_cam = camera;
+                
                 break;
             case 1:
             
                 out_scene = scene_1;
                 out_cam = camera_1;
+                document.querySelector("#h3_1").style.display = "block";
+                document.querySelector("#p3_2").style.display = "block";
                 break;
             case 2:
                 out_scene = scene_2;
@@ -835,8 +844,8 @@ UI_menu.addEventListener("click", function(event){
     div.style.marginRight = "auto"; 
     var sizes = renderer.getSize();
     div.style.width = sizes.width +"px";
-    div.style.height = sizes.height - 90 + "px";
-    div.style.top = "105px";
+    div.style.height = sizes.height+ "px";
+    div.style.top = "300px";
         
     div.classList.remove("screen-change");
     div.offsetWidth;
