@@ -697,7 +697,7 @@ function getPlane(size){
         div.style.marginRight = "auto"; 
         var sizes = renderer.getSize();
         div.style.width = sizes.width +"px";
-        div.style.height = sizes.height - 90 + "px";
+        div.style.height = sizes.height + "px";
         div.style.top = "105px";
             
         
@@ -853,7 +853,7 @@ UI_menu.addEventListener("click", function(event){
     div.style.marginRight = "auto"; 
     var sizes = renderer.getSize();
     div.style.width = sizes.width +"px";
-    div.style.height = sizes.height-90 + "px";
+    div.style.height = (sizes.height) + "px";
     div.style.top = "105px";
         
     div.classList.remove("screen-change");
