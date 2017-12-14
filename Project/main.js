@@ -19,7 +19,7 @@ var tick = 0;
 var lightMap;
 var lastFrame, currentFrame = 0;
 var clicked, highlighted = false;
-var totalAnimTime = 8.9;
+var totalAnimTime = 12.5;
 var one_chance = true;
 var mouseY, mouseX;
 var allowRenderScroll = true;
@@ -869,7 +869,7 @@ UI_menu.addEventListener("click", function(event){
             camera.position.y = 12;
             camera.position.z = 20;
             mixer.existingAction(clips[0]).reset();
-            totalAnimTime = 10;
+            totalAnimTime = 12.5;
             one_chance = true;
             mixer.update(delta1);
             
