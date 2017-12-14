@@ -869,7 +869,7 @@ UI_menu.addEventListener("click", function(event){
             camera.position.y = 12;
             camera.position.z = 20;
             mixer.existingAction(clips[0]).reset();
-            totalAnimTime = 8.9;
+            totalAnimTime = 10;
             one_chance = true;
             mixer.update(delta1);
             
