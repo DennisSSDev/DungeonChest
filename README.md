@@ -5,7 +5,13 @@
 
 ## !!! Before you download the repository !!!
 
-Make sure you have a dedicated local host server (Ex: Python server, node.js, VS Code extension, etc) as THREE.js requires a host machine to run the js files.
+Make sure you have a dedicated local host server (Ex: Python server, node.js, VS Code extension, etc) as THREE.js requires a host machine to run the js files. 
+
+In case your computer wasn't able to handle the Graphics Simulation, please report that in the issues tab on github :).
+
+## Controls
+
+Use only your mouse + left and right click for interacting with the project. Do not use the keyboard as currently the project has shortcuts for stopping/pausing the simulation, displaying vital performance information, wireframes, etc.
 
 ## What is this and how it's going to work?
 
@@ -18,7 +24,7 @@ The interaction will happen in three main scenes:
   <img width="720" height="405" src="https://github.com/DennisSSDev/DungeonChest/blob/master/Plans-Mocks/Mock_Scene_1.jpg">
 </p>
 
-In this scene the user is shown a dungeon with a chest right in the middle which will probably be highlighted by a light coming through a crack in the wall. He will be able to look around, but there won't be much in the room as it is full of rubble, vines and broken bricks. By hovering over the chest's diamond in the front it starts glowing with a bright blue light, encouraging the user to push on it. Once the user pushes the button, we transition to the second scene.
+In this scene the user is shown a dungeon with a chest right in the middle which will probably be highlightable on hover. The user will be able to look around, but there won't be much in the room to interact with, other than the chest. By hovering over the chest it starts glowing, encouraging the user to press it. Once the user interacts, he transition to the second scene.
 
 ### - The Insides
 
@@ -26,7 +32,7 @@ In this scene the user is shown a dungeon with a chest right in the middle which
   <img width="720" height="405" src="https://github.com/DennisSSDev/DungeonChest/blob/master/Plans-Mocks/Mock_Scene_2.jpg">
 </p>
 
-The camera rapidly switches into darkness and from that darkness emerges the bottom of a treasure chest, with three items scattered around the bottom. The user gets the option to hover over them and each of them would glow once someone tries to inspect them. Once the user decides to click on the item, the scene swiches to the final scene.
+The camera rapidly switches into darkness and from that darkness emerges the bottom of a treasure chest, with three items scattered around the bottom. The user gets the option to hover over them and each of them would glow once the user tries to inspect them. Once the user decides to click on the item, the scene swiches to the final scene.
 
 ### - The inspection
 
@@ -44,6 +50,7 @@ Based on the user's choice he will get to inspect an item from the chest more cl
 - I'm also going to be using dat.GUI.js which will help me adjust parameters of javascript objects on the fly
 - OrbitControls.js will also come in handy as it will help understand what's going around in the scene view
 - JQuery UI isalso a good option for developing fast UI elements
+- Sound js for simple sound effects
 
 ## Plan of Action
 - Finish learning THREE.js
