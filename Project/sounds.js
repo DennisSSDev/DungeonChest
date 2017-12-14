@@ -1,4 +1,3 @@
-let mainEl = document.querySelector("body");
 var instance;
 function init(){
     if (!createjs.Sound.initializeDefaultPlugins()) {console.log("No Sound js installed"); return;}
@@ -26,4 +25,4 @@ function loadHandler(event) {
     instance.volume = 0.08;
 }
 
-mainEl.onload = init();
+$(window).bind("load", init);
