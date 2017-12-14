@@ -22,7 +22,7 @@ function init(){
 }
 function loadHandler(event) {
     instance = createjs.Sound.play("main", {loop: Infinity});
-    instance.volume = 0.08;
+    instance.volume = 0.11;
 }
 
 $(window).bind("load", init);
