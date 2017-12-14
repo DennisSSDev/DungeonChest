@@ -28,6 +28,8 @@ var itemNum, recorded;
 var clips;
 var delta1;
 
+var isPlaying = false;
+var hoverSound;
 
 var chestOpen, gun,book,crystal;//the rest of the models
 var gun_copy,book_copy,crystal_copy;
@@ -47,11 +49,10 @@ function init(){
 
     
     //var gui = new dat.GUI();//add this to help with gui values
-    var enableFog = true;
     loader = new THREE.JSONLoader();
     clock = new THREE.Clock();
-    var cube = getPlane(20);
-    var light_00 = getAmbientLight(3);
+
+    var light_00 = getAmbientLight(3.3);
     var light_01 = getAmbientLight(4.5);
     var light_02 = getAmbientLight(4.5);
     var light_03 = getAmbientLight(4.5);
@@ -63,13 +64,10 @@ function init(){
 
     scene_4.add(light_03);
    
-    if(enableFog == true){
-        scene.fog = new THREE.FogExp2(0xf58012, 0.0005);
-    }
     
 
     
-    var sphere2 = getSphere(2);
+    
     var ambientLight = getAmbientLight(2.4);
     scene.add(ambientLight);
 
@@ -96,9 +94,7 @@ function init(){
     pointLight_4.position = reposition(pointLight_4.position,-39.5,6,-35.5);  
     scene.add(pointLight_4);
 
-    var pointLight_5 = getPointLight(1, 0xf2e0d0,0,1);
-    pointLight_5.position = reposition(pointLight_5.position,-27,10,-27);
-    scene.add(pointLight_5);
+    
 
 
     loader.load("../models/JSON/Inn/Inn.json", addModel);
@@ -302,8 +298,6 @@ function init(){
             
             camera.position.z = this.val;
             camera.lookAt(initial);
-            console.log(camera.rotation);
-           // cameraZPosition.position.z = this.val;
         })
 
 
@@ -366,38 +360,13 @@ function getBox(w, h, d){
     return mesh;
 }
 
-function getSphere(size){
-    
-        var geometry = new THREE.SphereGeometry(size, 24, 24);
-        var material = new THREE.MeshBasicMaterial({
-            color: 'rgb(255,255,255)'
-        });
-        var mesh = new THREE.Mesh(
-            geometry,
-            material
-        );
-        return mesh;
-    }
+
 function reposition(position,a,b,c){
     position.x = a;
     position.y= b;
     position.z = c;
 }
 
-function getPlane(size){
-    
-        var geometry = new THREE.PlaneGeometry(size, size);
-        var material = new THREE.MeshPhongMaterial({
-            color: 'rgb(120, 120, 120)',
-            side: THREE.DoubleSide
-        });
-        var mesh = new THREE.Mesh(
-            geometry,
-            material
-        );
-        mesh.receiveShadow = true;
-        return mesh;
-    }
     function getPointLight(intensity,color, distance, decay){
         var light = new THREE.PointLight(color, intensity, distance, decay);
         light.castShadow = true;
@@ -437,6 +406,7 @@ function getPlane(size){
     }
 
     function update(renderer, cur_scene, cur_camera, controls){
+    
        var array_out = determinScene();
        cur_scene = array_out[0];
        cur_camera = array_out[1];
@@ -461,7 +431,8 @@ function getPlane(size){
                 particleSYS.spawnParticle( options );
             }
         }
-        particleSYS.update( tick );
+        if(allowRender)
+            particleSYS.update( tick );
         if(allowAnimation){
             mixer.update(delta1);
         }
@@ -483,7 +454,7 @@ function getPlane(size){
 
         if(allowAnimation){
             TWEEN.update();
-            totalAnimTime -= 0.075;
+            totalAnimTime -= 0.07;
             if(totalAnimTime < -2.5 && one_chance){
                 changeScene();
                 one_chance = false;
@@ -494,7 +465,7 @@ function getPlane(size){
 
        
        if(scene_selector == 1){
-                console.log(scene_selector);
+                
             if(itemNum != 0 && clicked){
                 changeScene();
             }
@@ -572,11 +543,7 @@ function getPlane(size){
         mainInn.material[0].shininess = 0;
         mainInn.material[0].emissiveIntensity = 3;
         
-        scene.add(mainInn); 
-
-           
-        
-           
+        scene.add(mainInn);     
     }
 
     function assignEmissive(EM){
@@ -607,6 +574,9 @@ function getPlane(size){
 
         var active = determinScene();
         
+        if(allowRender == false)
+            return;
+
         
         raycaster.setFromCamera( mouse, active[1] );   
         if(mesh == undefined || book == undefined || gun == undefined || crystal == undefined)
@@ -617,12 +587,24 @@ function getPlane(size){
             if(scene_selector == 0){
                 for(var i = 0; i<intersects.length; i++){
                     if(intersects[i].object.name == "chest" ){
+                        if(isPlaying == false){
+                            hoverSound = createjs.Sound.play("hover", {loop: Infinity});
+                            hoverSound.volume = 0.005;
+                            isPlaying = true;
+                            
+                        }
                         
                         mesh.material[0].color = new THREE.Color(0xB4FAF1);
                         highlighted = true;
                         break;
                     }       
                     else{
+                        if(hoverSound){
+                            hoverSound.pause();
+                            isPlaying = false;
+                        }
+                            
+                            
                         mesh.material[0].color  = new THREE.Color(0.5,0.5,0.5);
                         highlighted = false;
                     }
@@ -631,17 +613,17 @@ function getPlane(size){
             }
             
             if(scene_selector==1 ){ 
+                hoverSound.pause();
                 for(var i = 0; i<intersects.length; i++){
                     if(intersects[i].object.name == "crystal" ){
-                        console.log("here");
                         itemNum = 1;
-                        crystal.material[0].color = new THREE.Color(0xB4FAF1);
-                        
+                        crystal.material[0].color = new THREE.Color(0xB4FAF1);            
                         break;
                     }       
                     else{
                         crystal.material[0].color  = new THREE.Color(0.5,0.5,0.5);
                         itemNum = 0;
+                        
                     }
                 }
                 if(itemNum == 1)
@@ -656,6 +638,7 @@ function getPlane(size){
                     else{
                         book.material[0].color  = new THREE.Color(0.5,0.5,0.5);
                         itemNum = 0;
+                        
                     }
                 }
                 if(itemNum == 2)
@@ -670,6 +653,7 @@ function getPlane(size){
                     else{
                         gun.material[0].color  = new THREE.Color(0.5,0.5,0.5);
                         itemNum = 0;
+                        
                     }
                 }
             }           
@@ -716,6 +700,18 @@ function getPlane(size){
             }
             else if(scene_selector == 1){
                 scene_selector += recorded;
+                if(scene_selector == 2){
+                    var soundEf_ = createjs.Sound.play("rare");
+                    soundEf_.volume = 0.18;
+                }
+                else if(scene_selector == 3){
+                    var soundEf_ = createjs.Sound.play("epic");
+                    soundEf_.volume = 0.18;
+                }
+                else if(scene_selector == 4){
+                    var soundEf_ = createjs.Sound.play("legendary");
+                    soundEf_.volume = 0.18;
+                }
             }
             else{
                 scene_selector = 1;
@@ -882,16 +878,25 @@ UI_menu.addEventListener("click", function(event){
     }, 1000);
 }, false);
 
+
 window.addEventListener("keydown", keyDown);
 document.addEventListener("visibilitychange", handleVisibilityChange, false);
 window.addEventListener( 'mousemove', onMouseMove, false );
 window.addEventListener( 'resize', onWindowResize, false );
+var menu = document.querySelector("#UI");
+
+menu.addEventListener("click", function(event){
+    
+        var ret_ = createjs.Sound.play("return_");
+        ret_.volume = 0.5;
+    
+    });
 document.querySelector("body").addEventListener("click", function( event ) {
     // display the current click count inside the clicked div
     clicked = true;
     recorded = itemNum;
     currentFrame = lastFrame;
-    console.log(clicked);
+    
   }, false);
 
 init();

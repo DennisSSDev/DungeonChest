@@ -205,7 +205,8 @@ footer{
 
 }
 #text{
-    background-image: url("../svgs/cb_bg_2.svg") ;
+    background-image: url("../svgs/cb_bg_2.svg")  ;
+    background-repeat: no-repeat;
     background-size: 110%;
     background-position: 20px;
 }
@@ -248,6 +249,15 @@ menus{
     
     display: none;
     width: 20%;
+}
+#h0_1{
+    color: #1ab7f4;/*rare*/
+}
+#h1_1{
+    color: #7d14e5;/*epic*/
+}
+#h2_1{
+    color: #fca90f;/*Legendary*/
 }
 #p0_2, #p1_2, #p2_2, #p3_2{/*this should be displayed as block on chain*/
     
@@ -330,7 +340,7 @@ h4{
 }
 
 .box:hover{
-    filter: saturate(4.5);
+    filter: saturate(3);
 }
 
 
