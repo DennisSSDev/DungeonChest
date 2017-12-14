@@ -3,6 +3,10 @@
 
 ![alt text](https://github.com/DennisSSDev/DungeonChest/blob/master/Plans-Mocks/Mock.jpg)
 
+## !!! Before you download the repository !!!
+
+Make sure you have a dedicated local host server (Ex: Python server, node.js, VS Code extension, etc) as THREE.js requires a host machine to run the js files.
+
 ## What is this and how it's going to work?
 
 The idea of this project is the visitor would get to experience the satisfaction of opening and exploring a chest, but what exactly will the user find inside that chest is left for him to find out. 
@@ -35,10 +39,11 @@ Based on the user's choice he will get to inspect an item from the chest more cl
 
 
 ## What will I use?
-- Currently the main framework I'm most likely going to be using is three.js, as it is used for 3D web development, which utilizes WebGL and is very well compatible with the majority of browsers
+- Currently the main framework I'm most likely going to be using is THREE.js, as it is used for 3D web development, which utilizes WebGL and is very well compatible with the majority of browsers
 - For creatinng 3D objects I'm planning to use Maya as my main source for 3D Designs
 - I'm also going to be using dat.GUI.js which will help me adjust parameters of javascript objects on the fly
 - OrbitControls.js will also come in handy as it will help understand what's going around in the scene view
+- JQuery UI isalso a good option for developing fast UI elements
 
 ## Plan of Action
 - Finish learning THREE.js
@@ -49,13 +54,13 @@ Based on the user's choice he will get to inspect an item from the chest more cl
 - Create scripts for interactivity like selecting items, hovering, clicking, rotating
 - Polish scenes
 
-## Above and Beyond Possibility
+## Future Additions
 - It would be nice to have the user be able to leave his own mark on the items, hence none of them will ever leave the chest. The feature would be to have the user paint a part of the item and have the changes saved to the overall item, thus the next user would be able to see the changes and to the exact same thing.
-- Another idea would be to add randomized items inside the chest, so there would be more excitement in the item the user can recieve from the chest
+- Another idea would be to add randomized items inside the chest, so there would be more excitement in the item the user can recieve from the chest 
 
 ## Notes
 I'm going to be using a couple of tutorials to get myself up and running with WEBGL and three.js:
 - [Learning 3D Graphics on the Web with Three.js](https://www.lynda.com/JavaScript-tutorials/Learning-3D-Graphics-Web-Three-js/586668-2.html?org=rit.edu)
 - [Getting Started with Three.js](https://aerotwist.com/tutorials/getting-started-with-three-js/)
-
+- [Importing models with JSON](https://www.youtube.com/watch?v=9MUTzn86XXQ&t=637s)
 
