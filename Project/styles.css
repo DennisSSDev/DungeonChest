@@ -334,9 +334,7 @@ a { color: inherit; text-decoration: none;}
     cursor: pointer;
     
 }
-h4{
-    background-color: none;
-}
+
 
 .box:hover{
     filter: saturate(3);
