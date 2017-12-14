@@ -205,8 +205,7 @@ footer{
 
 }
 #text{
-    background-image: url("../svgs/cb_bg_2.svg")  ;
-    background-repeat: no-repeat;
+    background-image: url("../svgs/cb_bg_2.svg");
     background-size: 110%;
     background-position: 20px;
 }
